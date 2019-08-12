@@ -1,2 +1,2 @@
-create table bookmark_manager (id serial primary key,name varchar(60));
+create table if not exists bookmarks (id serial primary key,url varchar(60));
 

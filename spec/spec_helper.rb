@@ -97,6 +97,7 @@ RSpec.configure do |config|
   #   Kernel.srand config.seed
 end
 require_relative '../app.rb'
+require_relative './db_helper.rb'
 
 require 'capybara'
 require 'capybara/rspec'
@@ -109,3 +110,10 @@ require 'simplecov-console'
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([SimpleCov::Formatter::Console])
 SimpleCov.start
+
+ENV['ENVIRONMENT'] = 'test'
+RSpec.configure do |config|
+  config.before(:each) do
+    prepare_test_database
+  end
+end

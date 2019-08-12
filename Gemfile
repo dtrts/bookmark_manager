@@ -19,3 +19,4 @@ group  :test, :development do
   gem "rubocop", "~> 0.74.0"
   gem "capybara", "~> 3.28"
 end
+gem "pg", "~> 1.1"
