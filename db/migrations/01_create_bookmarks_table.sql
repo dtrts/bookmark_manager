@@ -1,2 +1,2 @@
-create table if not exists bookmarks (id serial primary key,url varchar(60));
+create table if not exists bookmarks (id serial primary key,title varchar(60), url varchar(60));
 

@@ -7,12 +7,12 @@ def prepare_test_database
 
   conn.exec('truncate bookmarks;')
   conn.exec('
-    insert into bookmarks (url)
+    insert into bookmarks (title, url)
     values
-       (\'www.google.com\')
-      ,(\'www.facebook.com\')
-      ,(\'http://www.makersacademy.com\')
-      ,(\'http://www.destroyallsoftware.com\')
-      ,(\'http://www.google.com\')
+       (\'Goggle\',\'www.google.com\')
+      ,(\'FaceyB\',\'www.facebook.com\')
+      ,(\'MakersQueens\',\'http://www.makersacademy.com\')
+      ,(\'Shut it down\',\'http://www.destroyallsoftware.com\')
+      ,(\'Goglle\',\'http://www.google.com\')
     ')
 end
