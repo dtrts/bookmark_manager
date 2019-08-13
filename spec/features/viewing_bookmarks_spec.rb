@@ -32,6 +32,7 @@ feature 'viewing bookmarks' do
     first('.bookmark').click_button('Update')
     fill_in(:title, with: 'Google')
     click_button('Update Bookmark')
-    expect(first('.bookmark')).to have_link('Google', href: 'www.google.com')
+
+    expect(page).to have_link('Google', href: 'www.google.com')
   end
 end

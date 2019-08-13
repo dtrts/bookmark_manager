@@ -1,4 +1,4 @@
-<form action="/bookmarks/update/<%= @bookmark.id %>" method="POST">
+<form action="/bookmarks/<%= @bookmark.id %>" method="POST">
   <input type="hidden" name="_method" value="put">
   <label for="title">Title:</label><input type="text" name="title" placeholder="<%= @bookmark.title %>">
   <label for="url">URL:</label><input type="text" name="url" placeholder="<%= @bookmark.url %>">
