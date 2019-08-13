@@ -28,7 +28,7 @@ class BookmarkManager < Sinatra::Base
   # REST
 
   delete '/bookmarks/:id' do
-    Bookmark.delete(params[:id])
+    Bookmark.delete(id: params[:id])
     redirect('/bookmarks')
   end
 

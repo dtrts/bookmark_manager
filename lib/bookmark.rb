@@ -31,4 +31,14 @@ class Bookmark
     result = conn.exec("insert into bookmarks (title,url) values (\'#{title}'\, \'#{url}\') returning id, url, title;").first
     Bookmark.new(id: result['id'], title: result['title'], url: result['url'])
   end
+
+  def self.delete(id:)
+    conn = if ENV['ENVIRONMENT'] == 'test'
+             PG.connect(dbname: 'bookmark_manager_test')
+           else
+             PG.connect(dbname: 'bookmark_manager')
+    end
+
+    conn.exec("delete from bookmarks where id = #{id};")
+  end
 end
