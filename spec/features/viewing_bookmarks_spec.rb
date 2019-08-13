@@ -11,9 +11,9 @@ feature 'viewing bookmarks' do
 
   scenario 'adding a new bookmark and seeing it on the list' do
     visit('/bookmarks')
-    click_button('Add Bookmark')
-    fill_in(:url,with: 'https://github.com')
-    click_button('Add Bookmark')
+    click_button('Create Bookmark')
+    fill_in(:url, with: 'https://github.com')
+    click_button('Create Bookmark')
 
     expect(page).to have_content('https://github.com')
 
