@@ -2,17 +2,19 @@ require 'bookmark.rb'
 describe Bookmark do
   let(:bookmark_hash) { { 'id' => 1, 'url' => 'https://stackoverflow.com', 'title' => 'stackoverflow' } }
 
-  subject { described_class.new(bookmark_hash) }
+  let(:bookmark) { described_class.create(bookmark_hash) }
 
   it 'returns the id' do
-    expect(subject.id).to eq(1)
+    p bookmark
+    p bookmark.first
+    expect(bookmark['id']).to eq('6')
   end
 
   it 'returns the title' do
-    expect(subject.title).to eq('stackoverflow')
+    expect(bookmark['title']).to eq('stackoverflow')
   end
 
   it 'returns the url' do
-    expect(subject.url).to eq('https://stackoverflow.com')
+    expect(bookmark['url']).to eq('https://stackoverflow.com')
   end
 end

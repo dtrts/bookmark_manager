@@ -7,8 +7,7 @@ class Bookmarks
            else
              PG.connect(dbname: 'bookmark_manager')
             end
-    result = conn.exec('select id,title,url from bookmarks')
-    result.map { |row| row['title'] }
+    conn.exec('select id,title,url from bookmarks').to_a
   end
 
   def self.create(options)

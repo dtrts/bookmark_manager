@@ -1,0 +1,1 @@
+alter table bookmarks add column title varchar(60);

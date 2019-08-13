@@ -12,13 +12,10 @@ feature 'viewing bookmarks' do
   scenario 'adding a new bookmark and seeing it on the list' do
     visit('/bookmarks')
     click_button('Create Bookmark')
-    fill_in(:title, with: 'GitHub <3')
+    fill_in(:title, with: 'GitHub HeartEmoji')
     fill_in(:url, with: 'https://github.com')
     click_button('Create Bookmark')
 
-    expect(page).to have_content('GitHub <3')
-
+    expect(page).to have_link('GitHub HeartEmoji', href: 'https://github.com')
   end
-
 end
-
