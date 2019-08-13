@@ -1,6 +1,6 @@
 require 'bookmark.rb'
 describe Bookmark do
-  let(:bookmark_hash) { { id: 1, url: 'https://stackoverflow.com', title: 'stackoverflow' } }
+  let(:bookmark_hash) { { 'id' => 1, 'url' => 'https://stackoverflow.com', 'title' => 'stackoverflow' } }
 
   subject { described_class.new(bookmark_hash) }
 
