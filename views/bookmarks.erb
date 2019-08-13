@@ -5,6 +5,9 @@
       <input type="hidden" name="_method" value="delete">
       <button type="submit">Delete</button>
     </form>
+    <form action="/bookmarks/update/<%= bookmark.id %>" method="GET">
+      <button type="submit">Update</button>
+    </form>
   </li>
   <% end %>
 </ul>

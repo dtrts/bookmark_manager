@@ -41,4 +41,34 @@ class Bookmark
 
     conn.exec("delete from bookmarks where id = #{id};")
   end
+
+  def self.find(id:)
+    conn = if ENV['ENVIRONMENT'] == 'test'
+             PG.connect(dbname: 'bookmark_manager_test')
+           else
+             PG.connect(dbname: 'bookmark_manager')
+    end
+
+    result = conn.exec("select id,title,url from bookmarks where id = #{id};").first
+
+    Bookmark.new(id: result['id'], title: result['title'], url: result['url'])
+  end
+
+  def self.update(id:, title:, url:)
+    conn = if ENV['ENVIRONMENT'] == 'test'
+             PG.connect(dbname: 'bookmark_manager_test')
+           else
+             PG.connect(dbname: 'bookmark_manager')
+    end
+
+    if !!title && !title.empty?
+      conn.exec("update bookmarks set title = \'#{title}\' where id = #{id};")
+    end
+
+    if !!url && !url.empty?
+      conn.exec("update bookmarks set url = \'#{url}\' where id = #{id};")
+    end
+
+    find(id: id)
+  end
 end

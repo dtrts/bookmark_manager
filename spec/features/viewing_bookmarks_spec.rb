@@ -25,4 +25,13 @@ feature 'viewing bookmarks' do
     expect(current_path).to eq('/bookmarks')
     expect(page).not_to have_link('Goggle', href: 'www.google.com')
   end
+
+  scenario 'updating a bookmark' do
+    visit('/bookmarks')
+    expect(first('.bookmark')).to have_link('Goggle', href: 'www.google.com')
+    first('.bookmark').click_button('Update')
+    fill_in(:title, with: 'Google')
+    click_button('Update Bookmark')
+    expect(first('.bookmark')).to have_link('Google', href: 'www.google.com')
+  end
 end

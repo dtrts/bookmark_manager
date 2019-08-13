@@ -35,4 +35,23 @@ describe Bookmark do
       expect(bookmarks.length).to eq 4
     end
   end
+  describe '.find' do
+    it 'finds a record' do
+      bookmark = Bookmark.find(id: 1)
+      expect(bookmark.id).to eq('1')
+      expect(bookmark.title).to eq('Goggle')
+      expect(bookmark.url).to eq('www.google.com')
+    end
+  end
+  describe '.update' do
+    it 'updates a record' do
+      bookmark = Bookmark.create(title: 'A titleeee', url: 'A URL')
+
+      expect(Bookmark.find(id: bookmark.id).title).to eq('A titleeee')
+
+      Bookmark.update(id: bookmark.id, title: 'A title', url: 'a better url')
+      expect(Bookmark.find(id: bookmark.id).title).to eq('A title')
+      expect(Bookmark.find(id: bookmark.id).url).to eq('a better url')
+    end
+  end
 end
