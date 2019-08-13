@@ -18,4 +18,11 @@ feature 'viewing bookmarks' do
 
     expect(page).to have_link('GitHub HeartEmoji', href: 'https://github.com')
   end
+  scenario 'deleting a bookmark' do
+    visit('/bookmarks')
+    expect(page).to have_link('Goggle', href: 'www.google.com')
+    first('.bookmark').click_button('Delete') # . is class and # is id
+    expect(current_path).to eq('/bookmarks')
+    expect(page).not_to have_link('Goggle', href: 'www.google.com')
+  end
 end
