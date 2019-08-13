@@ -5,18 +5,18 @@ feature 'viewing bookmarks' do
   end
   scenario 'visiting the bookmarks page' do
     visit('/bookmarks')
-    expect(page). to have_content('www.google.com')
-    expect(page). to have_content('www.facebook.com')
+    expect(page). to have_content('Goggle')
+    expect(page). to have_content('FaceyB')
   end
 
   scenario 'adding a new bookmark and seeing it on the list' do
     visit('/bookmarks')
     click_button('Create Bookmark')
+    fill_in(:title, with: 'GitHub <3')
     fill_in(:url, with: 'https://github.com')
     click_button('Create Bookmark')
 
-    expect(page).to have_content('https://github.com')
-
+    expect(page).to have_content('GitHub <3')
 
   end
 

@@ -7,17 +7,19 @@ class Bookmarks
            else
              PG.connect(dbname: 'bookmark_manager')
             end
-    result = conn.exec('select url from bookmarks')
-    result.map { |row| row['url'] }
+    result = conn.exec('select id,title,url from bookmarks')
+    result.map { |row| row['title'] }
   end
 
-  def self.create(url)
+  def self.create(options)
     conn = if ENV['ENVIRONMENT'] == 'test'
              PG.connect(dbname: 'bookmark_manager_test')
            else
              PG.connect(dbname: 'bookmark_manager')
      end
+    url = options[:url]
+    title = options[:title]
 
-    conn.exec("insert into bookmarks (url) values (\'#{url}\');")
+    conn.exec("insert into bookmarks (title,url) values (\'#{title}'\, \'#{url}\');")
   end
 end
