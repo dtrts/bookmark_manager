@@ -1,6 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
-require_relative './lib/bookmarks.rb'
+require_relative './lib/bookmark.rb'
 
 class BookmarkManager < Sinatra::Base
   register Sinatra::Reloader
@@ -10,7 +10,7 @@ class BookmarkManager < Sinatra::Base
   end
 
   get '/bookmarks' do
-    @bookmarks = Bookmarks.all
+    @bookmarks = Bookmark.all
     erb(:bookmarks)
   end
 
@@ -19,7 +19,7 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/bookmarks/create' do
-    Bookmark.create('url' => params[:url], 'title' => params[:title])
+    Bookmark.create(url: params[:url], title: params[:title])
     redirect('/bookmarks')
   end
 
