@@ -54,7 +54,13 @@ feature 'viewing bookmarks' do
     expect(page).not_to have_content('Invalid URL')
     fill_in(:url, with: 'Not a URL')
     click_button('Update Bookmark')
+
     expect(page).to have_content('Invalid URL')
     expect(current_path).to eq('/bookmarks/1/update')
+  end
+
+  scenario 'shows comments' do
+    visit('/bookmarks')
+    expect(first('.bookmark')).to have_content('This is a handy search engine')
   end
 end
