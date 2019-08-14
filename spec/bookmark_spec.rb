@@ -5,8 +5,8 @@ describe Bookmark do
   let(:bookmark) { described_class.create(bookmark_hash) }
 
   describe '.create' do
-    it 'checks for valid URLS' do
-      expect(described_class.new(url: 'Bad URL', title: 'Title')).to eq(false)
+    it 'returns false if url is invalid' do
+      expect(described_class.create(url: 'Bad URL', title: 'Title')).to eq(false)
     end
   end
 
@@ -49,15 +49,24 @@ describe Bookmark do
       expect(bookmark.url).to eq('www.google.com')
     end
   end
+
   describe '.update' do
     it 'updates a record' do
-      bookmark = Bookmark.create(title: 'A titleeee', url: 'A URL')
+      bookmark = Bookmark.create(title: 'A titleeee', url: 'https://alllowerca.se')
 
       expect(Bookmark.find(id: bookmark.id).title).to eq('A titleeee')
 
-      Bookmark.update(id: bookmark.id, title: 'A title', url: 'a better url')
+      Bookmark.update(id: bookmark.id, title: 'A title', url: 'https://alllowerca.se/alloneword')
       expect(Bookmark.find(id: bookmark.id).title).to eq('A title')
-      expect(Bookmark.find(id: bookmark.id).url).to eq('a better url')
+      expect(Bookmark.find(id: bookmark.id).url).to eq('https://alllowerca.se/alloneword')
+    end
+
+    it 'doesnt update with invalid url' do
+      bookmark = Bookmark.create(title: 'A titleeee', url: 'https://alllowerca.se')
+
+      expect(Bookmark.find(id: bookmark.id).title).to eq('A titleeee')
+
+      expect(Bookmark.update(id: bookmark.id, title: 'A title', url: 'bad url')).to eq(false)
     end
   end
 end

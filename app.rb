@@ -26,12 +26,10 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/bookmarks/create' do
-    unless params[:url] =~ /\A#{URI::DEFAULT_PARSER.make_regexp}\z/
+    unless Bookmark.create(url: params[:url], title: params[:title])
       flash[:invalid_url] = 'Invalid URL'
       redirect('/bookmarks/create')
     end
-
-    Bookmark.create(url: params[:url], title: params[:title])
     redirect('/bookmarks')
   end
 
@@ -50,12 +48,11 @@ class BookmarkManager < Sinatra::Base
   end
 
   put '/bookmarks/:id' do
-    unless params[:url] =~ /\A#{URI::DEFAULT_PARSER.make_regexp}\z/
+    unless Bookmark.update(id: params[:id], title: params[:title], url: params[:url])
       flash[:invalid_url] = 'Invalid URL'
       redirect("/bookmarks/#{params[:id]}/update")
     end
 
-    Bookmark.update(id: params[:id], title: params[:title], url: params[:url])
     redirect('/bookmarks')
   end
 

@@ -1,4 +1,4 @@
-require 'PG'
+# require 'PG'
 # require_relative './database_connection.rb'
 
 class Bookmark
@@ -18,6 +18,8 @@ class Bookmark
 
   def self.create(bookmark_record)
     url = bookmark_record[:url]
+    return false unless is_url?(url)
+
     title = bookmark_record[:title]
 
     result = DatabaseConnection.query("insert into bookmarks (title,url) values (\'#{title}'\, \'#{url}\') returning id, url, title;").first
@@ -35,6 +37,8 @@ class Bookmark
   end
 
   def self.update(id:, title:, url:)
+    return false unless is_url?(url)
+
     if !!title && !title.empty?
       DatabaseConnection.query("update bookmarks set title = \'#{title}\' where id = #{id};")
     end
@@ -44,5 +48,12 @@ class Bookmark
     end
 
     find(id: id)
+  end
+
+  private
+
+  def self.is_url?(url)
+    # url =~ /\A#{URI.regexp(%w[http https])}\z/
+    url =~ /\A#{URI::DEFAULT_PARSER.make_regexp}\z/
   end
 end
