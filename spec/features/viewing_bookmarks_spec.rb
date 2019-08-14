@@ -63,4 +63,13 @@ feature 'viewing bookmarks' do
     visit('/bookmarks')
     expect(first('.bookmark')).to have_content('This is a handy search engine')
   end
+
+  scenario 'add a comment' do
+    visit('/bookmarks')
+    second('.bookmark').click('Add Comment')
+    fill_in('Text', with: 'This is a brand new test comment')
+    click('Add Comment')
+    expect(page).to have_content('This is a brand new text comment')
+  end
+
 end
