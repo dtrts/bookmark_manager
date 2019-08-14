@@ -10,7 +10,8 @@ feature 'tags' do
   scenario 'tag link shows related bookmarks' do
     visit('/bookmarks')
     tag_bit = find(:xpath, '//ul[@id="tag-list"]')
-    tag_bit.click_button('Great!')
+    tag_bit.text
+    tag_bit.click_link('Great!')
     expect(page).to have_link('MakersQueens', href: 'http://www.makersacademy.com')
     expect(page).not_to have_link('Goggle', href: 'www.google.com')
     expect(page).to have_button('All Bookmarks')
@@ -59,9 +60,8 @@ feature 'tags' do
     expect(current_path).to eq('/bookmarks/1/tags/update')
     check('Great!')
     uncheck('Bad')
-    click_on("Update Tags")
+    click_on('Update Tags')
     expect(first_bookmark).to have_link('Great!', href: '/tags/1')
     expect(first_bookmark).not_to have_link('Bad')
-
   end
 end
