@@ -3,6 +3,7 @@ require 'sinatra/reloader'
 require 'sinatra/flash'
 require 'uri'
 require_relative './lib/bookmark.rb'
+require_relative './lib/comment.rb'
 require_relative './lib/database_connection_setup.rb'
 
 class BookmarkManager < Sinatra::Base
