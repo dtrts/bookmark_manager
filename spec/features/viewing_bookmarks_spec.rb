@@ -64,12 +64,15 @@ feature 'viewing bookmarks' do
     expect(first('.bookmark')).to have_content('This is a handy search engine')
   end
 
-  scenario 'add a comment' do
+  scenario 'create a comment' do
     visit('/bookmarks')
-    second('.bookmark').click('Add Comment')
+    within find(:xpath, '//li[@class="bookmark"][2]') do
+      click_button('Create Comment')
+    end
     fill_in('Text', with: 'This is a brand new test comment')
-    click('Add Comment')
-    expect(page).to have_content('This is a brand new text comment')
+    click('Create Comment')
+    within find(:xpath, '//li[@class="bookmark"][2]') do
+      expect(page).to have_content('This is a brand new text comment')
+    end
   end
-
 end
