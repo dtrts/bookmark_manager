@@ -1,11 +1,13 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
+require 'sinatra/flash'
 require_relative './lib/bookmark.rb'
 require_relative './lib/database_connection_setup.rb'
 
 class BookmarkManager < Sinatra::Base
   register Sinatra::Reloader
   enable :method_override
+  enable :sessions
 
   get '/' do
     'Bookmark Manager'
