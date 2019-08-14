@@ -31,9 +31,10 @@ feature 'viewing bookmarks' do
     expect(first('.bookmark')).to have_link('Goggle', href: 'www.google.com')
     first('.bookmark').click_button('Update')
     fill_in(:title, with: 'Google')
+    fill_in(:url, with: 'https://www.google.com')
     click_button('Update Bookmark')
 
-    expect(page).to have_link('Google', href: 'www.google.com')
+    expect(page).to have_link('Google', href: 'https://www.google.com')
   end
 
   scenario 'incorrectly creating a bookmark' do
@@ -43,7 +44,7 @@ feature 'viewing bookmarks' do
     fill_in(:url, with: 'This is not a url')
     click_button('Create Bookmark')
     expect(page).to have_content('Invalid URL')
-    expect(current_path).to eq('/bookmarks')
+    expect(current_path).to eq('/bookmarks/create')
   end
 
   scenario 'incorrectly updating a bookmark' do
