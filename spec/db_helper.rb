@@ -1,3 +1,7 @@
+def persisted_data(table:, id:)
+  DatabaseConnection.query("SELECT * FROM #{table} WHERE id = '#{id}';")
+end
+
 def prepare_test_database
   conn = PG.connect(dbname: 'bookmark_manager_test')
 
