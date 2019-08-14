@@ -61,12 +61,18 @@ describe Bookmark do
       expect(Bookmark.find(id: bookmark.id).url).to eq('https://alllowerca.se/alloneword')
     end
 
-    it 'doesnt update with invalid url' do
+    it 'doesn\'t update with invalid url' do
       bookmark = Bookmark.create(title: 'A titleeee', url: 'https://alllowerca.se')
 
       expect(Bookmark.find(id: bookmark.id).title).to eq('A titleeee')
 
       expect(Bookmark.update(id: bookmark.id, title: 'A title', url: 'bad url')).to eq(false)
     end
+  end
+
+  describe '.comments' do
+    # returns an array of comment
+    bookmark = Bookmark.find(id: 1)
+    expect(bookmark.comments).to include(['This is a handy search engine', 'Watch out for your personal data'])
   end
 end

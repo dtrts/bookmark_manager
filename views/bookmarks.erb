@@ -5,9 +5,18 @@
       <input type="hidden" name="_method" value="delete">
       <button type="submit">Delete</button>
     </form>
+
     <form action="/bookmarks/<%= bookmark.id %>/update" method="GET">
       <button type="submit">Update</button>
     </form>
+
+    <ul>
+      <% bookmark.comments.each do |comment| %>
+      <li><%= comment %> </li>
+      <%end%>
+    </ul>
+
+
   </li>
   <% end %>
 </ul>
