@@ -1,0 +1,1 @@
+create table tags (id serial primary key, content varchar(60));
