@@ -1,7 +1,9 @@
 require 'PG'
 
 class DatabaseConnection
-  attr_reader :connection
+  class << self
+    attr_reader :connection
+  end
 
   def self.setup(dbname)
     @connection = PG.connect(dbname: dbname)
