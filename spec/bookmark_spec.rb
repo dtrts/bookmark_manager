@@ -4,6 +4,12 @@ describe Bookmark do
 
   let(:bookmark) { described_class.create(bookmark_hash) }
 
+  describe '.create' do
+    it 'checks for valid URLS' do
+      expect(described_class.new(url: 'Bad URL', title: 'Title')).to eq(false)
+    end
+  end
+
   it 'returns the id' do
     expect(bookmark.id).to eq('6')
   end
