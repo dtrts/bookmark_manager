@@ -77,4 +77,12 @@ describe Bookmark do
       comments = bookmark.comments
     end
   end
+
+  it 'returns tags for a bookmark' do
+    tags = Bookmark.tags(id: 1)
+    expect(tags.length).to eq(2)
+    expect(bookmarks.first).to be_a(Tag)
+    expect(bookmarks.first.content).to eq('Bad')
+    expect(bookmarks.last.content).to eq('Read')
+  end
 end
