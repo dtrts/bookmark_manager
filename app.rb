@@ -5,6 +5,7 @@ require 'uri'
 require_relative './lib/bookmark.rb'
 require_relative './lib/comment.rb'
 require_relative './lib/database_connection_setup.rb'
+require_relative './lib/tag.rb'
 
 class BookmarkManager < Sinatra::Base
   register Sinatra::Reloader

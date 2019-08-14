@@ -80,6 +80,7 @@ describe Bookmark do
 
   it 'returns tags for a bookmark' do
     tags = Bookmark.tags(id: 1)
+    p tags
     expect(tags.length).to eq(2)
     expect(tags.first).to be_a(Tag)
     expect(tags.first.content).to eq('Bad')

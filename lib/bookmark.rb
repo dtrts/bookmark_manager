@@ -5,10 +5,10 @@
 class Bookmark
   attr_reader :id, :url, :title
 
-  def initialize(bookmark_record)
-    @id = bookmark_record[:id]
-    @url = bookmark_record[:url]
-    @title = bookmark_record[:title]
+  def initialize(bookmark)
+    @id = bookmark['id']
+    @url = bookmark['url']
+    @title = bookmark['title']
   end
 
   def comments(comment_class = Comment)
@@ -17,7 +17,7 @@ class Bookmark
 
   def self.all
     DatabaseConnection.query('select id,title,url from bookmarks order by id').map do |bookmark|
-      Bookmark.new(id: bookmark['id'], title: bookmark['title'], url: bookmark['url'])
+      Bookmark.new(bookmark)
     end
   end
 
@@ -27,8 +27,8 @@ class Bookmark
 
     title = bookmark_record[:title]
 
-    result = DatabaseConnection.query("insert into bookmarks (title,url) values (\'#{title}'\, \'#{url}\') returning id, url, title;").first
-    Bookmark.new(id: result['id'], title: result['title'], url: result['url'])
+    bookmark = DatabaseConnection.query("insert into bookmarks (title,url) values (\'#{title}'\, \'#{url}\') returning id, url, title;").first
+    Bookmark.new(bookmark)
   end
 
   def self.delete(id:)
@@ -36,9 +36,9 @@ class Bookmark
   end
 
   def self.find(id:)
-    result = DatabaseConnection.query("select id,title,url from bookmarks where id = #{id};").first
+    bookmark = DatabaseConnection.query("select id,title,url from bookmarks where id = #{id};").first
 
-    Bookmark.new(id: result['id'], title: result['title'], url: result['url'])
+    Bookmark.new(bookmark)
   end
 
   def self.update(id:, title:, url:)
@@ -53,6 +53,24 @@ class Bookmark
     end
 
     find(id: id)
+  end
+
+  def self.tags(id:)
+    DatabaseConnection.query("
+      select
+        c.id
+        ,c.content
+      from
+        bookmarks a
+          join
+            bookmark_tags b
+            on a.id  = b.bookmark_id
+          join
+            tags c
+            on b.tag_id = c.id
+      where
+        a.id = #{id}
+      ").map { |tag| Tag.new(tag) }
   end
 
   private
