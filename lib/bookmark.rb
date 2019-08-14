@@ -16,7 +16,7 @@ class Bookmark
   end
 
   def self.all
-    DatabaseConnection.query('select id,title,url from bookmarks').map do |bookmark|
+    DatabaseConnection.query('select id,title,url from bookmarks order by id').map do |bookmark|
       Bookmark.new(id: bookmark['id'], title: bookmark['title'], url: bookmark['url'])
     end
   end

@@ -13,8 +13,12 @@ class Comment
   end
 
   def self.all(bookmark_id:)
-    result = DatabaseConnection.query("select id, text, bookmark_id from comments where bookmark_id = #{bookmark_id}")
+    result = DatabaseConnection.query("select id, text, bookmark_id from comments where bookmark_id = #{bookmark_id} order by id")
     result.map { |record| Comment.new(id: record['id'], text: record['text'], bookmark_id: record['bookmark_id']) }
+  end
+
+  def self.delete(id:)
+    DatabaseConnection.query("delete from comments where id = #{id};")
   end
 
   private

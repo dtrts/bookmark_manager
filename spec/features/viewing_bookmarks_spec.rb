@@ -69,10 +69,22 @@ feature 'viewing bookmarks' do
     within find(:xpath, '//li[@class="bookmark"][2]') do
       click_button('Create Comment')
     end
-    fill_in('Text', with: 'This is a brand new test comment')
-    click('Create Comment')
+    fill_in(:text, with: 'This is a brand new test comment')
+    click_on('Create Comment')
     within find(:xpath, '//li[@class="bookmark"][2]') do
-      expect(page).to have_content('This is a brand new text comment')
+      expect(page).to have_content('This is a brand new test comment')
+    end
+  end
+
+  scenario 'delete a comment' do
+    visit('/bookmarks')
+    within find(:xpath, '//li[@class="bookmark"][3]') do |content|
+      p content
+      expect(page).to have_content('Yaaaaas')
+      click_on('Delete Comment')
+    end
+    within find(:xpath, '//li[@class="bookmark"][3]') do
+      expect(page).not_to have_content('Yaaaaas')
     end
   end
 end

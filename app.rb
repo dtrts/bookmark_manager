@@ -61,9 +61,20 @@ class BookmarkManager < Sinatra::Base
 
   get '/bookmarks/:id/comments/create' do
     @bookmark_id = params[:id]
-    erb(:"bookmarks/comments")
+    erb(:"bookmarks/comments/create")
   end
 
+  post '/bookmarks/:id/comments/create' do
+    Comment.create(bookmark_id: params[:id], text: params[:text])
+    redirect('/bookmarks')
+  end
+
+  # DELETE COMMENT
+
+  delete '/bookmarks/:bookmark_id/comments/:comment_id' do
+    Comment.delete(id: params[:comment_id])
+    redirect('/bookmarks')
+  end
 
   run! if app_file == $PROGRAM_NAME
 end

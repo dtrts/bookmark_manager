@@ -8,6 +8,13 @@ describe Comment do
       expect(comment.bookmark_id).to eq('1')
     end
   end
+  describe '.delete' do
+    it 'deletes a comment' do
+      comments = Comment.all(bookmark_id: 3)
+      Comment.delete(id: comments.first.id)
+      expect(Comment.all(bookmark_id: 3)).to be_empty
+    end
+  end
   describe '.all(:bookmark_id)' do
     it 'returns all the comments for a particular bookmark_id' do
       comments = Comment.all(bookmark_id: 1)
