@@ -1,5 +1,5 @@
 <div>
-  Invalid URL
+  <%= flash[:invalid_url] %>
 </div>
 <form action="/bookmarks/<%= @bookmark.id %>" method="POST">
   <input type="hidden" name="_method" value="put">

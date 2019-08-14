@@ -7,6 +7,7 @@ require_relative './lib/database_connection_setup.rb'
 
 class BookmarkManager < Sinatra::Base
   register Sinatra::Reloader
+  register Sinatra::Flash
   enable :method_override
   enable :sessions
 
@@ -25,7 +26,10 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/bookmarks/create' do
-    redirect('/bookmarks/create') unless params[:url] =~ /\A#{URI::DEFAULT_PARSER.make_regexp}\z/
+    unless params[:url] =~ /\A#{URI::DEFAULT_PARSER.make_regexp}\z/
+      flash[:invalid_url] = 'Invalid URL'
+      redirect('/bookmarks/create')
+    end
 
     Bookmark.create(url: params[:url], title: params[:title])
     redirect('/bookmarks')
@@ -46,7 +50,11 @@ class BookmarkManager < Sinatra::Base
   end
 
   put '/bookmarks/:id' do
-    redirect("/bookmarks/#{params[:id]}/update") unless params[:url] =~ /\A#{URI::DEFAULT_PARSER.make_regexp}\z/
+    unless params[:url] =~ /\A#{URI::DEFAULT_PARSER.make_regexp}\z/
+      flash[:invalid_url] = 'Invalid URL'
+      redirect("/bookmarks/#{params[:id]}/update")
+    end
+
     Bookmark.update(id: params[:id], title: params[:title], url: params[:url])
     redirect('/bookmarks')
   end

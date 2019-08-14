@@ -40,6 +40,7 @@ feature 'viewing bookmarks' do
   scenario 'incorrectly creating a bookmark' do
     visit('/bookmarks')
     click_button('Create Bookmark')
+    expect(page).not_to have_content('Invalid URL')
     fill_in(:title, with: 'This is a title')
     fill_in(:url, with: 'This is not a url')
     click_button('Create Bookmark')
@@ -50,6 +51,7 @@ feature 'viewing bookmarks' do
   scenario 'incorrectly updating a bookmark' do
     visit('/bookmarks')
     first('.bookmark').click_button('Update')
+    expect(page).not_to have_content('Invalid URL')
     fill_in(:url, with: 'Not a URL')
     click_button('Update Bookmark')
     expect(page).to have_content('Invalid URL')
