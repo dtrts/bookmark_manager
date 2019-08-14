@@ -1,1 +1,1 @@
-create table tags (id serial primary key, content varchar(60));
+create table if not exists tags (id serial primary key, content varchar(60));
