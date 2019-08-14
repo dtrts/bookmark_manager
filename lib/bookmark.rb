@@ -1,6 +1,6 @@
 # require 'PG'
 # require_relative './database_connection.rb'
-require_relative './comment.rb'
+# require_relative './comment.rb'
 
 class Bookmark
   attr_reader :id, :url, :title
@@ -11,9 +11,8 @@ class Bookmark
     @title = bookmark_record[:title]
   end
 
-  def comments
-    #   Comment.all(id: @id)
-    ['This is a handy search engine', 'Watch out for your personal data']
+  def comments(comment_class = Comment)
+    comment_class.all(bookmark_id: @id)
   end
 
   def self.all

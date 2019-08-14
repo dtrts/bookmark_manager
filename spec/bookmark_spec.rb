@@ -71,12 +71,10 @@ describe Bookmark do
   end
 
   describe '.comments' do
-    # returns an array of comment
     it 'returns all of the comments for the first bookmark' do
-      bookmark = Bookmark.find(id: 1)
-      expect(bookmark.comments).to include('This is a handy search engine', 'Watch out for your personal data')
-      # Comments.create(text: 'a new comment', bookmark_id: 1) # probably not very good practice?
-      # expect(bookmark.comments).to include('This is a handy search engine', 'Watch out for your personal data', 'a new comment')
+      bookmark = Bookmark.find(id: '1')
+      expect(Comment).to receive(:all).with(bookmark_id: '1')
+      comments = bookmark.comments
     end
   end
 end
