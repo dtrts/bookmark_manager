@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <!-- <link href="./style.css" rel="stylesheet" type="text/css"> -->
+  <link href="./style.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -91,7 +91,7 @@
                 <a href="/tags/<%= tag.id %>"><%= tag.content %></a>
                 <form action="/bookmarks/<%= bookmark.id %>/tags/<%= tag.id %>" method="POST">
                   <input type="hidden" name="_method" value="delete">
-                  <button id="bookmark-<%= bookmark.id %>-tag-<%= tag.id %>-delete" name='delete'
+                  <button id="bookmark-<%= bookmark.id %>-tag-<%= tag.id %>-delete" name='delete-tag'
                     type="submit">X</button>
                 </form>
               </div>
