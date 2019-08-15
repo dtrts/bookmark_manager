@@ -6,6 +6,7 @@ require_relative './lib/bookmark.rb'
 require_relative './lib/comment.rb'
 require_relative './lib/database_connection_setup.rb'
 require_relative './lib/tag.rb'
+require_relative './lib/bookmark_tag.rb'
 
 class BookmarkManager < Sinatra::Base
   register Sinatra::Reloader
@@ -59,6 +60,11 @@ class BookmarkManager < Sinatra::Base
 
   put '/bookmarks/:id/tags' do
     @bookmark = Bookmark.find(id: params[:id])
+    @tags = Tag.all
+    @tags.each do |tag|
+      # if tagID present => insert into table if doesn't exist
+      # if tagID is not present ? delete
+    end
     DatabaseConnection.query("delete from bookmark_tags where bookmark_id = #{params[:id]};")
 
     params.each do |key, value|
