@@ -48,12 +48,6 @@ feature 'viewing bookmarks' do
     expect(current_path).to eq('/bookmarks/create')
   end
 
-
-
-
-
-
-
   scenario 'incorrectly updating a bookmark' do
     visit('/bookmarks')
     first('.bookmark').click_button('Update')
@@ -64,8 +58,4 @@ feature 'viewing bookmarks' do
     expect(page).to have_content('Invalid URL')
     expect(current_path).to eq('/bookmarks/1/update')
   end
-
-
-
-
 end

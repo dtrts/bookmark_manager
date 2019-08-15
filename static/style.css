@@ -1,0 +1,100 @@
+html,
+body {
+  font-family: 'Courier New', Courier, monospace;
+  max-width: 900px;
+  margin: auto;
+}
+
+body {
+  border: 1px solid black;
+  margin: 15px;
+  /* padding: 10px; */
+}
+
+h1 {
+  padding: 15px;
+}
+
+header,
+main,
+footer {
+  padding: 15px 0px;
+}
+
+#tag-list,
+#bookmark-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.bookmark {
+  border: 1px solid black;
+  max-width: 200px;
+  padding: 5px
+}
+
+#bookmark-comments,
+#bookmark-tags {
+  font-size: 10px;
+  margin: 5px 0px;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+.tag {
+  width: 100px;
+
+}
+
+input,
+button,
+submit {
+  border: none;
+  padding: 2px;
+}
+
+.tag-link {
+  width: auto;
+  /* background-color: lightcoral; */
+  padding: 5px;
+  margin: 0px;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+a {
+  text-decoration: none;
+
+}
+
+.tag-delete button {
+  width: 100px;
+  font-family: inherit;
+  padding: 2px;
+  margin: 0px;
+  /* background-color: coral; */
+}
+
+
+#tags {
+  margin: 0px;
+  padding: 20px;
+  /* background-color: beige; */
+}
+
+#bookmarks {
+  padding: 20px;
+}
+
+h3 {
+  display: inline;
+}
+
+button {
+  display: inline;
+}
+
+form {
+  display: inline;
+}
