@@ -73,13 +73,14 @@ describe Bookmark do
   describe '.comments' do
     it 'returns all of the comments for the first bookmark' do
       bookmark = Bookmark.find(id: '1')
-      expect(Comment).to receive(:all).with(bookmark_id: '1')
+      expect(Comment).to receive(:where_bookmark_id).with(bookmark_id: '1')
       comments = bookmark.comments
     end
   end
 
   it 'returns tags for a bookmark' do
-    tags = Bookmark.tags(id: 1)
+    bookmark = Bookmark.find(id: 1)
+    tags = bookmark.tags
     expect(tags.length).to eq(2)
     expect(tags.first).to be_a(Tag)
     expect(tags.first.content).to eq('Bad')

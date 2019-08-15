@@ -10,14 +10,14 @@ describe Comment do
   end
   describe '.delete' do
     it 'deletes a comment' do
-      comments = Comment.all(bookmark_id: 3)
+      comments = Comment.where_bookmark_id(bookmark_id: 3)
       Comment.delete(id: comments.first.id)
-      expect(Comment.all(bookmark_id: 3)).to be_empty
+      expect(Comment.where_bookmark_id(bookmark_id: 3)).to be_empty
     end
   end
   describe '.all(:bookmark_id)' do
     it 'returns all the comments for a particular bookmark_id' do
-      comments = Comment.all(bookmark_id: 1)
+      comments = Comment.where_bookmark_id(bookmark_id: 1)
       expect(comments.length).to eq(2)
       expect(comments.first.id).to eq('1')
       expect(comments.first.text).to eq('This is a handy search engine')

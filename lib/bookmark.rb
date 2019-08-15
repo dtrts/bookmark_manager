@@ -1,6 +1,7 @@
 # require 'PG'
 # require_relative './database_connection.rb'
 # require_relative './comment.rb'
+require_relative './tag.rb'
 
 class Bookmark
   attr_reader :id, :url, :title
@@ -12,26 +13,38 @@ class Bookmark
   end
 
   def comments(comment_class = Comment)
-    comment_class.all(bookmark_id: @id)
+    comment_class.where_bookmark_id(bookmark_id: @id)
   end
 
-  def tags
-    id = @id
+  def tags(tag_class = Tag)
+    tag_class.where_bookmark_id(bookmark_id: @id)
+  end
+
+  def self.where_tag_id(tag_id:)
     DatabaseConnection.query("
       select
-        c.id
-        ,c.content
+         c.id
+        ,c.title
+        ,c.url
       from
-        bookmarks a
+        tags a
           join
             bookmark_tags b
-            on a.id  = b.bookmark_id
+            on a.id = b.tag_id
           join
-            tags c
-            on b.tag_id = c.id
+            bookmarks c
+            on b.bookmark_id = c.id
       where
-        a.id = #{id}
-      ").map { |tag| Tag.new(tag) }
+        a.id = #{tag_id}
+      ;").map { |bookmark| Bookmark.new(bookmark) }
+  end
+
+  def include_tag?(tag)
+    current_tags = tags
+    current_tags.each do |current_tag|
+      return true if current_tag.id == tag.id && current_tag.content == tag.content
+    end
+    false
   end
 
   def self.all
@@ -72,24 +85,6 @@ class Bookmark
     end
 
     find(id: id)
-  end
-
-  def self.tags(id:)
-    DatabaseConnection.query("
-      select
-        c.id
-        ,c.content
-      from
-        bookmarks a
-          join
-            bookmark_tags b
-            on a.id  = b.bookmark_id
-          join
-            tags c
-            on b.tag_id = c.id
-      where
-        a.id = #{id}
-      ").map { |tag| Tag.new(tag) }
   end
 
   private

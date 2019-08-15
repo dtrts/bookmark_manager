@@ -43,7 +43,7 @@ class BookmarkManager < Sinatra::Base
   # show book marks for a single tag
   get '/tags/:id' do
     @show_home_button = true
-    @bookmarks = Tag.bookmarks(id: params[:id])
+    @bookmarks = Tag.find(id: params[:id]).bookmarks
     @tags = Tag.all
     erb(:bookmarks)
   end
@@ -52,6 +52,7 @@ class BookmarkManager < Sinatra::Base
   get '/bookmarks/:id/tags/update' do
     @tags = Tag.all
     @bookmark = Bookmark.find(id: params[:id])
+
     erb(:"bookmarks/tags/update")
   end
 

@@ -1,83 +1,104 @@
+<style>
+  button {
+    display: inline;
+  }
+
+  form {
+    display: inline;
+  }
+
+  div {
+    padding: 10px
+  }
+
+  ul {
+    margin: 10px
+  }
+
+  li {
+    margin: 5px 0px
+  }
+</style>
+<h1>Bookmark Manager</h1>
 <% if @show_home_button %>
 <form action="/bookmarks"> <button type="submit">Return Home</button></form>
 <form action="/bookmarks"> <button type="submit">All Bookmarks</button></form>
 <% end %>
 
-<ul id="bookmark-list">
-  <% @bookmarks.each do |bookmark| %>
-  <li class="bookmark" id="bookmark-<%= bookmark.id %>"><a href="<%= bookmark.url %>"><%= bookmark.title %></a>
-
-    <form action="/bookmarks/<%= bookmark.id %>" method="POST">
-      <input type="hidden" name="_method" value="delete">
-      <button type="submit">Delete</button>
-    </form>
-
-    <form action="/bookmarks/<%= bookmark.id %>/update" method="GET">
-      <button type="submit">Update</button>
-    </form>
-
-
-    <div id="bookmark-comments">
-
-      <ul>
-        <% bookmark.comments.each do |comment| %>
-        <li class="comment" id="comment-<%= comment.id %>"><%= comment.text %>
-          <form action="/bookmarks/<%= bookmark.id %>/comments/<%= comment.id %>" method="POST">
-            <input type="hidden" name="_method" value="delete">
-            <button type="submit">Delete Comment</button>
-          </form>
-        </li>
-        <% end %>
-      </ul>
-      <form action="/bookmarks/<%= bookmark.id %>/comments/create"> <button type="submit">Create
-          Comment</a>
+<div>
+  <h2>Bookmarks</h2>
+  <ul id="bookmark-list">
+    <% @bookmarks.each do |bookmark| %>
+    <li class="bookmark" id="bookmark-<%= bookmark.id %>"><a href="<%= bookmark.url %>">
+        <h3><%= bookmark.title %></h3>
+      </a>
+      <form action="/bookmarks/<%= bookmark.id %>" method="POST">
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit">Delete</button>
+      </form>
+      <form action="/bookmarks/<%= bookmark.id %>/update" method="GET">
+        <button type="submit">Update</button>
       </form>
 
-    </div>
+      <div id="bookmark-comments">
+        <h4>Comments</h4>
+        <ul>
+          <% bookmark.comments.each do |comment| %>
+          <li class="comment" id="comment-<%= comment.id %>"><%= comment.text %>
+            <form action="/bookmarks/<%= bookmark.id %>/comments/<%= comment.id %>" method="POST">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit">Delete Comment</button>
+            </form>
+          </li>
+          <% end %>
+        </ul>
+        <form action="/bookmarks/<%= bookmark.id %>/comments/create"> <button type="submit">Create
+            Comment</a>
+        </form>
+      </div>
 
-    <div id="bookmark-tags">
+      <div id="bookmark-tags">
+        <h4>Tags</h4>
+        <ul>
+          <% bookmark.tags.each do |tag| %>
+          <li class="bookmark-tag" @id="bookmark-<%= bookmark.id %>-tag-<%= tag.id %>">
+            <a href="/tags/<%= tag.id %>"><%= tag.content %></a>
+            <form action="/bookmarks/<%= bookmark.id %>/tags/<%= tag.id %>" method="POST">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit">Remove Tag</button>
+            </form>
+          </li>
+          <% end %>
+        </ul>
+        <form action="/bookmarks/<%= bookmark.id %>/tags/update"> <button type="submit">Update Tags</a>
+        </form>
+      </div>
 
-      <ul>
-        <% bookmark.tags.each do |tag| %>
-        <li class="bookmark-tag" @id="bookmark-<%= bookmark.id %>-tag-<%= tag.id %>">
-          <a href="/tags/<%= tag.id %>"><%= tag.content %></a>
-          <form action="/bookmarks/<%= bookmark.id %>/tags/<%= tag.id %>" method="POST">
-            <input type="hidden" name="_method" value="delete">
-            <button type="submit">Remove Tag</button>
-          </form>
-        </li>
-        <% end %>
-      </ul>
-      <form action="/bookmarks/<%= bookmark.id %>/tags/update"> <button type="submit">Update Tags</a>
+    </li>
+    <% end %>
+  </ul>
+  <form action="/bookmarks/create"> <button type="submit">Create
+      Bookmark</button>
+  </form>
+
+</div>
+
+
+
+<div>
+  <h3>Tags</h3>
+  <ul id="tag-list">
+    <% @tags.each do |tag| %>
+    <li class="tag" @id="tag-<%= tag.id %>">
+      <a href="/tags/<%= tag.id %>"><%= tag.content %></a>
+      <form action="/tags/<%= tag.id %>" method="POST">
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit">Delete Tag</button>
       </form>
-
-    </div>
-
-
-
-
-
-
-  </li>
-  <% end %>
-</ul>
-<form action="/bookmarks/create"> <button type="submit">Create
-    Bookmark</button>
-</form>
-
-
-
-<ul id="tag-list">
-  <% @tags.each do |tag| %>
-  <li class="tag" @id="tag-<%= tag.id %>">
-    <a href="/tags/<%= tag.id %>"><%= tag.content %></a>
-    <form action="/tags/<%= tag.id %>" method="POST">
-      <input type="hidden" name="_method" value="delete">
-      <button type="submit">Delete Tag</button>
-    </form>
-  </li>
-  <% end %>
-</ul>
-<form action="/tags/create"> <button type="submit">Create
-    Tag</button>
-</form>
+    </li>
+    <% end %>
+  </ul>
+  <form action="/tags/create"> <button type="submit">Create
+      Tag</button>
+  </form>
+</div>

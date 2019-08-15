@@ -24,7 +24,8 @@ describe Tag do
   end
 
   it 'returns bookmarks for a tag' do
-    bookmarks = Tag.bookmarks(id: 3)
+    tag = Tag.find(id: 3)
+    bookmarks = tag.bookmarks
     expect(bookmarks.length).to eq(2)
     expect(bookmarks.first).to be_a(Bookmark)
     expect(bookmarks.first.title).to eq('Goggle')

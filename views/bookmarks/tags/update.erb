@@ -10,7 +10,7 @@
       <!-- value is on by default -->
       <% @tags.each do |tag| %>
       <input type="checkbox" name="tag<%= tag.id %>" value="<%= tag.id %>"
-        <%= @bookmark.tags.include?(tag) ? "checked" : "" %>><%= tag.content %></label> <br />
+        <%= @bookmark.include_tag?(tag) ? "checked" : "" %>><%= tag.content %></label> <br />
     <% end %>
 
   </fieldset>
