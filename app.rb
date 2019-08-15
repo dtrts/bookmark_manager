@@ -59,31 +59,22 @@ class BookmarkManager < Sinatra::Base
   end
 
   put '/bookmarks/:id/tags' do
-    @bookmark = Bookmark.find(id: params[:id])
-    @tags = Tag.all
-    @tags.each do |tag|
-      # if tagID present => insert into table if doesn't exist
-      # if tagID is not present ? delete
-    end
-    DatabaseConnection.query("delete from bookmark_tags where bookmark_id = #{params[:id]};")
+    @bookmark_id = params[:id]
 
-    params.each do |key, value|
-      next unless key.to_s.start_with?('tag')
-
-      DatabaseConnection.query("
-        insert into
-          bookmark_tags (bookmark_id,tag_id)
-          values (#{params[:id]},#{value});
-      ")
+    Tag.all.each do |tag|
+      if params.key?(('tag' + tag.id.to_s).to_sym)
+        BookmarkTag.create(bookmark_id: @bookmark_id, tag_id: tag.id)
+      else
+        BookmarkTag.delete(bookmark_id: @bookmark_id, tag_id: tag.id)
+      end
     end
+
     redirect('/bookmarks')
   end
 
   # DELETE BOOKMARK TAGS
   delete '/bookmarks/:bookmark_id/tags/:tag_id' do
-    DatabaseConnection.query("
-      delete from bookmark_tags where bookmark_id = #{params[:bookmark_id]} and tag_id = #{params[:tag_id]};
-      ")
+    BookmarkTag.delete(bookmark_id: params[:bookmark_id], tag_id: params[:tag_id])
     redirect('/bookmarks')
   end
   # TAGS  ----------------------------------------------------------------------
