@@ -1,4 +1,3 @@
-require_relative '../lib/database_connection_setup.rb'
 def persisted_data(table:, id:)
   DatabaseConnection.query("SELECT * FROM #{table} WHERE id = '#{id}';")
 end

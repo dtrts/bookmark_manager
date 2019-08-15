@@ -1,8 +1,3 @@
-# require 'PG'
-# require_relative './database_connection.rb'
-# require_relative './comment.rb'
-require_relative './tag.rb'
-
 class Bookmark
   attr_reader :id, :url, :title
 
@@ -90,7 +85,6 @@ class Bookmark
   private
 
   def self.is_url?(url)
-    # url =~ /\A#{URI.regexp(%w[http https])}\z/
     url =~ /\A#{URI::DEFAULT_PARSER.make_regexp}\z/
   end
 end

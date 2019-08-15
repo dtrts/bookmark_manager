@@ -1,4 +1,3 @@
-require 'comment.rb'
 describe Comment do
   describe '.create' do
     it 'creates a new comment' do

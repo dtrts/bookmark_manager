@@ -1,4 +1,3 @@
-require 'bookmark.rb'
 describe Bookmark do
   let(:bookmark_hash) { { id: 1, url: 'https://stackoverflow.com', title: 'stackoverflow' } }
 

@@ -23,14 +23,15 @@ class BookmarkManager < Sinatra::Base
     erb(:bookmarks)
   end
 
-  # TAG ROUTES
-  # Delete tag
+  # TAGS  ----------------------------------------------------------------------
+
+  # DELETE TAG
   delete '/tags/:id' do
     Tag.delete(id: params[:id])
     redirect('/bookmarks')
   end
 
-  # Create Tag
+  # CREATE TAG
   get '/tags/create' do
     erb(:"tags/create")
   end
@@ -40,7 +41,7 @@ class BookmarkManager < Sinatra::Base
     redirect('/bookmarks')
   end
 
-  # show book marks for a single tag
+  # SHOW SINGLE TAG
   get '/tags/:id' do
     @show_home_button = true
     @bookmarks = Tag.find(id: params[:id]).bookmarks
@@ -48,7 +49,7 @@ class BookmarkManager < Sinatra::Base
     erb(:bookmarks)
   end
 
-  # Edit tags on a book mark
+  # UPDATE BOOKMARK TAGS
   get '/bookmarks/:id/tags/update' do
     @tags = Tag.all
     @bookmark = Bookmark.find(id: params[:id])
@@ -58,7 +59,6 @@ class BookmarkManager < Sinatra::Base
 
   put '/bookmarks/:id/tags' do
     @bookmark = Bookmark.find(id: params[:id])
-    # add
     DatabaseConnection.query("delete from bookmark_tags where bookmark_id = #{params[:id]};")
 
     params.each do |key, value|
@@ -73,15 +73,16 @@ class BookmarkManager < Sinatra::Base
     redirect('/bookmarks')
   end
 
-  # remove single tag from bookmark
+  # DELETE BOOKMARK TAGS
   delete '/bookmarks/:bookmark_id/tags/:tag_id' do
     DatabaseConnection.query("
       delete from bookmark_tags where bookmark_id = #{params[:bookmark_id]} and tag_id = #{params[:tag_id]};
       ")
     redirect('/bookmarks')
   end
-
-  # CREATE
+  # TAGS  ----------------------------------------------------------------------
+  # BOOKMARKS  -----------------------------------------------------------------
+  # CREATE BOOKMARK
   get '/bookmarks/create' do
     erb(:"bookmarks/create")
   end
@@ -94,15 +95,13 @@ class BookmarkManager < Sinatra::Base
     redirect('/bookmarks')
   end
 
-  # DELETE
-
+  # DELETE BOOKMARK
   delete '/bookmarks/:id' do
     Bookmark.delete(id: params[:id])
     redirect('/bookmarks')
   end
 
-  # UPDATE
-
+  # UPDATE BOOKMARK
   get '/bookmarks/:id/update' do
     @bookmark = Bookmark.find(id: params[:id].to_i)
     erb(:"bookmarks/update")
@@ -116,9 +115,11 @@ class BookmarkManager < Sinatra::Base
 
     redirect('/bookmarks')
   end
+  # BOOKMARKS  -----------------------------------------------------------------
 
-  # ADD COMMENT
+  # COMMENTS  ------------------------------------------------------------------
 
+  # CREATE COMMENT
   get '/bookmarks/:id/comments/create' do
     @bookmark_id = params[:id]
     erb(:"bookmarks/comments/create")
@@ -130,11 +131,11 @@ class BookmarkManager < Sinatra::Base
   end
 
   # DELETE COMMENT
-
   delete '/bookmarks/:bookmark_id/comments/:comment_id' do
     Comment.delete(id: params[:comment_id])
     redirect('/bookmarks')
   end
+  # COMMENTS  ------------------------------------------------------------------
 
   run! if app_file == $PROGRAM_NAME
 end

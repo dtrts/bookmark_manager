@@ -1,5 +1,3 @@
-require_relative '../lib/tag.rb'
-
 describe Tag do
   it 'retrieves all tags' do
     tags = Tag.all
