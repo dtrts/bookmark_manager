@@ -15,6 +15,25 @@ class Bookmark
     comment_class.all(bookmark_id: @id)
   end
 
+  def tags
+    id = @id
+    DatabaseConnection.query("
+      select
+        c.id
+        ,c.content
+      from
+        bookmarks a
+          join
+            bookmark_tags b
+            on a.id  = b.bookmark_id
+          join
+            tags c
+            on b.tag_id = c.id
+      where
+        a.id = #{id}
+      ").map { |tag| Tag.new(tag) }
+  end
+
   def self.all
     DatabaseConnection.query('select id,title,url from bookmarks order by id').map do |bookmark|
       Bookmark.new(bookmark)

@@ -22,16 +22,17 @@ feature 'tags' do
     tag_bit = find(:xpath, '//ul[@id="tag-list"]')
     expect(tag_bit).to have_content('Bad')
     tag_bit.find(:xpath, '//li[@class="tag"][3]').click_on('Delete Tag')
+    tag_bit = find(:xpath, '//ul[@id="tag-list"]')
     expect(tag_bit).not_to have_content('Bad')
   end
 
   scenario 'add a new tag' do
     visit('/bookmarks')
     tag_bit = find(:xpath, '//ul[@id="tag-list"]')
-    tag_bit.click_on('New Tag')
+    click_on('Create Tag')
     expect(current_path).to eq('/tags/create')
-    fill_in('Tag name:', with: 'Suggested')
-    click_on('New Tag')
+    fill_in(:content, with: 'Suggested')
+    click_on('Create Tag')
     expect(tag_bit).to have_link('Suggested', href: '/tags/6')
   end
 
@@ -46,21 +47,25 @@ feature 'tags' do
   scenario 'delete tag from bookmark' do
     visit('/bookmarks')
     first_bookmark = find(:xpath, '//li[@id="bookmark-1"]')
-    first_bookmark_first_tag = first_bookmark.find(:xpath, '//li[@class="bookmark-tag"][1]')
+    first_bookmark_first_tag = find(:xpath, '//li[@id="bookmark-1"]//li[@class="bookmark-tag"][1]')
     expect(first_bookmark).to have_link('Bad', href: '/tags/3')
-    expect(first_bookmark_first_tag).to have_button('Delete Tag')
-    first_bookmark_first_tag.click_on('Delete Tag')
+    expect(first_bookmark_first_tag).to have_button('Remove Tag')
+    first_bookmark_first_tag.click_on('Remove Tag')
+    first_bookmark = find(:xpath, '//li[@id="bookmark-1"]')
     expect(first_bookmark).not_to have_link('Bad', href: '/tags/3')
   end
 
   scenario 'edit tags on a bookmark' do
     visit('/bookmarks')
     first_bookmark = find(:xpath, '//li[@id="bookmark-1"]')
-    expect(first_bookmark_first_tag).to have_button('Edit Tags')
+    expect(first_bookmark).to have_button('Update Tags')
+    first_bookmark.click_button('Update Tags')
     expect(current_path).to eq('/bookmarks/1/tags/update')
-    check('Great!')
-    uncheck('Bad')
-    click_on('Update Tags')
+    expect(find(:xpath, '//input[@name="tag1"]').checked?).to eq(false)
+    page.check('Great!')
+    page.uncheck(:tag3)
+    click_on('Edit Tags')
+    first_bookmark = find(:xpath, '//li[@id="bookmark-1"]')
     expect(first_bookmark).to have_link('Great!', href: '/tags/1')
     expect(first_bookmark).not_to have_link('Bad')
   end

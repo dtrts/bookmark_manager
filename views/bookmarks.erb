@@ -1,3 +1,8 @@
+<% if @show_home_button %>
+<form action="/bookmarks"> <button type="submit">Return Home</button></form>
+<form action="/bookmarks"> <button type="submit">All Bookmarks</button></form>
+<% end %>
+
 <ul id="bookmark-list">
   <% @bookmarks.each do |bookmark| %>
   <li class="bookmark" id="bookmark-<%= bookmark.id %>"><a href="<%= bookmark.url %>"><%= bookmark.title %></a>
@@ -11,20 +16,48 @@
       <button type="submit">Update</button>
     </form>
 
-    <ul>
-      <% bookmark.comments.each do |comment| %>
-      <li class="comment" id="comment-<%= comment.id %>"><%= comment.text %>
-        <form action="/bookmarks/<%= bookmark.id %>/comments/<%= comment.id %>" method="POST">
-          <input type="hidden" name="_method" value="delete">
-          <button type="submit">Delete Comment</button>
-        </form>
-      </li>
-      <% end %>
-    </ul>
 
-    <form action="/bookmarks/<%= bookmark.id %>/comments/create"> <button type="submit">Create
-        Comment</a>
-    </form>
+    <div id="bookmark-comments">
+
+      <ul>
+        <% bookmark.comments.each do |comment| %>
+        <li class="comment" id="comment-<%= comment.id %>"><%= comment.text %>
+          <form action="/bookmarks/<%= bookmark.id %>/comments/<%= comment.id %>" method="POST">
+            <input type="hidden" name="_method" value="delete">
+            <button type="submit">Delete Comment</button>
+          </form>
+        </li>
+        <% end %>
+      </ul>
+      <form action="/bookmarks/<%= bookmark.id %>/comments/create"> <button type="submit">Create
+          Comment</a>
+      </form>
+
+    </div>
+
+    <div id="bookmark-tags">
+
+      <ul>
+        <% bookmark.tags.each do |tag| %>
+        <li class="bookmark-tag" @id="bookmark-<%= bookmark.id %>-tag-<%= tag.id %>">
+          <a href="/tags/<%= tag.id %>"><%= tag.content %></a>
+          <form action="/bookmarks/<%= bookmark.id %>/tags/<%= tag.id %>" method="POST">
+            <input type="hidden" name="_method" value="delete">
+            <button type="submit">Remove Tag</button>
+          </form>
+        </li>
+        <% end %>
+      </ul>
+      <form action="/bookmarks/<%= bookmark.id %>/tags/update"> <button type="submit">Update Tags</a>
+      </form>
+
+    </div>
+
+
+
+
+
+
   </li>
   <% end %>
 </ul>
@@ -38,7 +71,7 @@
   <% @tags.each do |tag| %>
   <li class="tag" @id="tag-<%= tag.id %>">
     <a href="/tags/<%= tag.id %>"><%= tag.content %></a>
-    <form action="/bookmarks/<%= tag.id %>/tags" method="POST">
+    <form action="/tags/<%= tag.id %>" method="POST">
       <input type="hidden" name="_method" value="delete">
       <button type="submit">Delete Tag</button>
     </form>

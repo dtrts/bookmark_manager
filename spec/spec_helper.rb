@@ -6,11 +6,11 @@ require 'rspec'
 require 'simplecov'
 require 'simplecov-console'
 
+ENV['ENVIRONMENT'] = 'test'
+
 Capybara.app = BookmarkManager
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([SimpleCov::Formatter::Console])
 SimpleCov.start
-
-ENV['ENVIRONMENT'] = 'test'
 
 RSpec.configure do |config|
   config.before(:each) do

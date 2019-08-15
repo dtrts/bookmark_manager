@@ -23,6 +23,63 @@ class BookmarkManager < Sinatra::Base
     erb(:bookmarks)
   end
 
+  # TAG ROUTES
+  # Delete tag
+  delete '/tags/:id' do
+    Tag.delete(id: params[:id])
+    redirect('/bookmarks')
+  end
+
+  # Create Tag
+  get '/tags/create' do
+    erb(:"tags/create")
+  end
+
+  post '/tags/create' do
+    Tag.create(content: params[:content])
+    redirect('/bookmarks')
+  end
+
+  # show book marks for a single tag
+  get '/tags/:id' do
+    @show_home_button = true
+    @bookmarks = Tag.bookmarks(id: params[:id])
+    @tags = Tag.all
+    erb(:bookmarks)
+  end
+
+  # Edit tags on a book mark
+  get '/bookmarks/:id/tags/update' do
+    @tags = Tag.all
+    @bookmark = Bookmark.find(id: params[:id])
+    erb(:"bookmarks/tags/update")
+  end
+
+  put '/bookmarks/:id/tags' do
+    @bookmark = Bookmark.find(id: params[:id])
+    # add
+    DatabaseConnection.query("delete from bookmark_tags where bookmark_id = #{params[:id]};")
+
+    params.each do |key, value|
+      next unless key.to_s.start_with?('tag')
+
+      DatabaseConnection.query("
+        insert into
+          bookmark_tags (bookmark_id,tag_id)
+          values (#{params[:id]},#{value});
+      ")
+    end
+    redirect('/bookmarks')
+  end
+
+  # remove single tag from bookmark
+  delete '/bookmarks/:bookmark_id/tags/:tag_id' do
+    DatabaseConnection.query("
+      delete from bookmark_tags where bookmark_id = #{params[:bookmark_id]} and tag_id = #{params[:tag_id]};
+      ")
+    redirect('/bookmarks')
+  end
+
   # CREATE
   get '/bookmarks/create' do
     erb(:"bookmarks/create")

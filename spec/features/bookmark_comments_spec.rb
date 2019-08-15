@@ -20,7 +20,6 @@ feature 'comments' do
     visit('/bookmarks')
     expect(find(:xpath, '//li[@class="bookmark"][3]')).to have_content('Yaaaaas')
     find(:xpath, '//li[@class="bookmark"][3]').click_on('Delete Comment')
-    p find(:xpath, '//li[@class="bookmark"][3]')
     expect(find(:xpath, '//li[@class="bookmark"][3]')).not_to have_content('Yaaaaas')
   end
 end
