@@ -1,0 +1,13 @@
+<% if flash[:invalid_password] %>
+<div>
+  Invalid Password
+</div>
+<div>
+  <a href="/bookmarks">Return home</a>
+</div>
+<% end %>
+<form action="/users/login" method="post">
+  <label>Email Address:<input type="text" name="email_address"></label>
+  <label>Password:<input type="text" name="password"></label>
+  <button type="submit">Login</button>
+</form>
