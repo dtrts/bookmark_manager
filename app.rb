@@ -7,6 +7,7 @@ require_relative './lib/comment.rb'
 require_relative './lib/database_connection_setup.rb'
 require_relative './lib/tag.rb'
 require_relative './lib/bookmark_tag.rb'
+require_relative './lib/user.rb'
 
 class BookmarkManager < Sinatra::Base
   register Sinatra::Reloader
@@ -27,6 +28,8 @@ class BookmarkManager < Sinatra::Base
   get '/bookmarks' do
     @bookmarks = Bookmark.all
     @tags = Tag.all
+    @user
+
     erb(:bookmarks)
   end
 
@@ -53,6 +56,8 @@ class BookmarkManager < Sinatra::Base
     @show_home_button = true
     @bookmarks = Tag.find(id: params[:id]).bookmarks
     @tags = Tag.all
+    @user = nil
+
     erb(:bookmarks)
   end
 
@@ -139,6 +144,16 @@ class BookmarkManager < Sinatra::Base
     redirect('/bookmarks')
   end
   # COMMENTS  ------------------------------------------------------------------
+  # USERS  ---------------------------------------------------------------------
+  get '/users/create' do
+    erb(:"users/create")
+  end
+
+  post '/users' do
+    User.create(:username, :password)
+    redirect('/bookmarks')
+  end
+  # USERS  ---------------------------------------------------------------------
 
   run! if app_file == $PROGRAM_NAME
 end
