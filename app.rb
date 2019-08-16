@@ -32,8 +32,7 @@ class BookmarkManager < Sinatra::Base
     else
       @bookmarks = Bookmark.all
     end
-
-    @user = User.find(id: session[:user_id]) if session[:user_id]
+    @user = User.find(id: session[:user_id])
 
     @tags = Tag.all
 
@@ -155,7 +154,27 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/users' do
-    session[:user_id] = User.create(username: params[:username], password: params[:password]).id
+    session[:user_id] = User.create(email_address: params[:email_address], username: params[:username], password: params[:password]).id
+    redirect('/bookmarks')
+  end
+
+  get '/users/login' do
+    erb(:"/users/login")
+  end
+
+  post '/users/login' do
+    user = User.login(email_address: params[:email_address], password: params[:password])
+    unless user
+      flash[:invalid_password] = true
+      redirect('/users/login')
+    end
+
+    session[:user_id] = user.id
+    redirect('/bookmarks')
+  end
+
+  post '/users/logout' do
+    session[:user_id] = nil
     redirect('/bookmarks')
   end
   # USERS  ---------------------------------------------------------------------

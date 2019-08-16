@@ -19,9 +19,13 @@
     <div id="user">
       <% if @user %>
       <h1>Hello There, <%= @user.username %></h1>
-      <% end %>
-      <form action="/users/create"> <button type="submit" id="create-tag">User Registration</button>
-      </form>
+      <form action="/users/logout" method="post"> <button type="submit" id="user-logout">Logout</button>
+        <% else %>
+        <form action="/users/login" method="get"> <button type="submit" id="user-login">User Login</button>
+        </form>
+        <form action="/users/create" method="get"> <button type="submit" id="user-create">User Registration</button>
+        </form>
+        <% end %>
     </div>
 
 

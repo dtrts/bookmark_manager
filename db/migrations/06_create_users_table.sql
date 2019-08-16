@@ -1,1 +1,1 @@
-create table users (id serial primary key,username varchar(60),password varchar(140));
+create table users (id serial primary key,email_address varchar(255),username varchar(60),password varchar(140));
