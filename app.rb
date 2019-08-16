@@ -26,9 +26,16 @@ class BookmarkManager < Sinatra::Base
   end
 
   get '/bookmarks' do
-    @bookmarks = Bookmark.all
+    if flash[:bookmarks_by_tag]
+      @bookmarks = Tag.find(id: flash[:bookmarks_by_tag]).bookmarks
+      @show_home_button = true
+    else
+      @bookmarks = Bookmark.all
+    end
+
+    @user = User.find(id: session[:user_id]) if session[:user_id]
+
     @tags = Tag.all
-    @user
 
     erb(:bookmarks)
   end
@@ -53,11 +60,9 @@ class BookmarkManager < Sinatra::Base
 
   # SHOW SINGLE TAG
   get '/tags/:id' do
-    @show_home_button = true
     @bookmarks = Tag.find(id: params[:id]).bookmarks
-    @tags = Tag.all
-    @user = nil
-
+    flash[:bookmarks_by_tag] = params[:id]
+    redirect('/bookmarks')
     erb(:bookmarks)
   end
 
@@ -150,7 +155,7 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/users' do
-    User.create(:username, :password)
+    session[:user_id] = User.create(username: params[:username], password: params[:password]).id
     redirect('/bookmarks')
   end
   # USERS  ---------------------------------------------------------------------

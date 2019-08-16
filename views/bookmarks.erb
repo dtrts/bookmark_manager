@@ -17,9 +17,9 @@
 
 
     <div id="user">
-      <!-- <% if @user %>
-      <h1>Hello There, <%= @user.email %></h1>
-      <% end %> -->
+      <% if @user %>
+      <h1>Hello There, <%= @user.username %></h1>
+      <% end %>
       <form action="/users/create"> <button type="submit" id="create-tag">User Registration</button>
       </form>
     </div>
