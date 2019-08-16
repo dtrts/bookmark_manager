@@ -175,6 +175,7 @@ class BookmarkManager < Sinatra::Base
 
   post '/users/logout' do
     session[:user_id] = nil
+    flash[:sign_out] = true
     redirect('/bookmarks')
   end
   # USERS  ---------------------------------------------------------------------

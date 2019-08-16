@@ -33,6 +33,7 @@ feature 'New User' do
     expect(page).not_to have_xpath('//img[@src="/__sinatra__/500.png"]')
     expect(page).not_to have_content('TopLad')
     expect(page).not_to have_button('Logout')
+    expect(page).to have_xpath('//div[@id="logout-message"]')
   end
 
   scenario 'shows error on incorrect password' do
@@ -42,6 +43,6 @@ feature 'New User' do
     fill_in('Email Address:', with: 'ladsladslads@bible.com')
     fill_in('Password:', with: 'im_so_lovely')
     click_on('Login')
-    expect(page).to have_content('Invalid Password')
+    expect(page).to have_content('Invalid Email or Password')
   end
 end
